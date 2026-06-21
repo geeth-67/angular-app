@@ -1,62 +1,104 @@
-import {AfterViewInit, Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit , OnChanges ,OnDestroy , DoCheck ,AfterViewInit{
+export class ProductsComponent implements OnInit, OnChanges, OnDestroy, DoCheck {
 
-  private title = 'Available Products';
-  public titlePublic = "Available Products";
+  private titlePrivate = 'Available Products';
+  public titlePublic = 'Available Products';
 
   public products: Product[] = [
-    {name: 'iPhone', price: 1000, currency: 'USD'},
-    {name: 'iPad', price: 2000, currency: 'LKR'},
-    {name: 'iWatch', price: 3000, currency: 'USD'},
+    {
+      name: "Head phone",
+      price: 25,
+      currency: "USD",
+      category: "ELEC"
+    },
+
+    {
+      name: "USB",
+      price: 3000,
+      currency: "LKR",
+      category: "ELEC"
+
+    },
+
+
+    {
+      name: "Egg",
+      price: 30,
+      currency: "LKR",
+      category: "FOOD"
+
+    },
+
+
+    {
+      name: "Penadol",
+      price: 30,
+      currency: "LKR",
+      category: "MED"
+
+    }
   ];
 
   public displayProducts: Product[] = [];
 
-  constructor() {
-    console.log("product constructor")
+  constructor(
+    private route: ActivatedRoute,
+  ) {
   }
 
   ngOnInit() {
-    this.displayProducts = this.products;
-  }
-  ngOnChanges(changes:SimpleChanges) {
-    // console.log("product OnChange")
-  }
-  ngAfterViewInit(): void {
-    // console.log("product after view init")
-  }
-  ngOnDestroy(): void {
-    // console.log("product destroy")
-  }
-  ngDoCheck() {
-    // console.log("product Do check")
+    this.route.queryParams.subscribe((param => {
+      const category = param['category'];
+      if (category) {
+        this.displayProducts = this.products.filter(p => p.category === category);
+      } else {
+        this.displayProducts = this.products;
+      }
+    }))
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log('Product onChanges'); //works on input changes
+  }
+
+  ngOnDestroy() {
+    // console.log('Product onDestroy');
+  }
+
+  ngDoCheck() {
+    // console.log('DoCheck');  // works on UI changes
+  }
+
+  ngAfterViewInit() {
+    // console.log('AfterViewInit');
+  }
 
   public onSearchChange(searchValue: any){
-    if (searchValue){
-     // this.displayProducts = this.products.filter(product => product.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
+    if(searchValue){
+      // this.displayProducts = this.products.filter(product => product.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
       this.displayProducts = this.products.filter(product => product.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).map(
         product => {
-          product.price = product.price * 10;
+          product.price = product.price + 10;
           return product;
         }
       );
-
     }else {
       this.displayProducts = this.products;
     }
   }
+
 }
 
 export interface Product {
   name: string;
   price: number;
   currency: string;
+  category: string;
 }
