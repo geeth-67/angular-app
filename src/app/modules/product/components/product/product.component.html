@@ -1,1 +1,17 @@
-<p>product works!</p>
+<div>
+  <span>{{product?.name}}</span>
+</div>
+<div *ngIf="product?.currency ==='USD'; else productPrice">
+  <span>{{product?.price}}</span>
+  <span>{{product?.currency}}</span>
+</div>
+
+<!--<div *ngIf="product?.currency !='USD'">-->
+<!--  <span>{{product?.price}}</span>-->
+<!--  <span>{{product?.currency}}</span>-->
+<!--</div>-->
+
+<ng-template #productPrice>
+  <span>{{product?.currency}}</span>
+  <span>{{product?.price}}</span>
+</ng-template>
