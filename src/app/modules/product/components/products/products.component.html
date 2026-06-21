@@ -1,0 +1,9 @@
+<div id="available-products" class="available-products">
+  <span>{{titlePublic}}</span>
+  <app-product-filter (onSearchChange)="onSearchChange($event)"></app-product-filter>
+  <div class="product-list">
+    <ng-container *ngFor="let product of displayProducts">
+      <app-product  [product]="product" [price]="product.price"></app-product>
+    </ng-container>
+  </div>
+</div>
