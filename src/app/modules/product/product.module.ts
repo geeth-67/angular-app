@@ -4,6 +4,8 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ProductFilterComponent } from './components/product-filter/product-filter.component';
 import {FormsModule} from "@angular/forms";
+import {ProductRoutingModule} from "./product-routing-module";
+import { ProductViewComponent } from './components/product-view/product-view.component';
 
 
 
@@ -11,7 +13,8 @@ import {FormsModule} from "@angular/forms";
   declarations: [
     ProductComponent,
     ProductsComponent,
-    ProductFilterComponent
+    ProductFilterComponent,
+    ProductViewComponent
   ],
   exports: [
     ProductComponent,
@@ -19,7 +22,8 @@ import {FormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ProductRoutingModule
   ]
 })
 export class ProductModule { }
